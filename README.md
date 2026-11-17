@@ -69,15 +69,19 @@ outcome was reached**.
 These capabilities make agent behavior easier to trace, debug and evaluate
 without presenting a simulated booking as a verified real-world reservation.
 
-Screenshots below show the actual Electron application using simulated data.
+The next three screenshots show the **same confirmed real-telephony test call**
+to a number authorized by its owner on 15 November 2026. They do not depict a
+call to an independent restaurant.
 
-| Agent graph and inspector | Execution timeline |
-| --- | --- |
-| ![Agent graph and inspector](docs/screenshots/agent-graph.png) | ![Execution timeline](docs/screenshots/execution-timeline.png) |
+![Confirmed real-telephony test call in call history](docs/screenshots/call-history.png)
 
-| Call history | Analytics |
-| --- | --- |
-| ![Call history](docs/screenshots/call-history.png) | ![Analytics](docs/screenshots/analytics.png) |
+![Agent graph for the confirmed real-telephony test call](docs/screenshots/agent-graph.png)
+
+![Execution timeline for the confirmed real-telephony test call](docs/screenshots/execution-timeline.png)
+
+The analytics screenshot shows simulated data:
+
+![Analytics with simulated data](docs/screenshots/analytics.png)
 
 Open the Control Center from the booking application. With the backend already
 running, it can also be launched independently:
