@@ -1,9 +1,10 @@
 # BARIA product demo - Remotion source
 
-The approved export is [docs/media/ai-restaurant-booker-demo.mp4](../docs/media/ai-restaurant-booker-demo.mp4),
-with English burned-in subtitles and SRT/WebVTT sidecars. It is preserved byte for
-byte from the owner-approved version: 1920 x 1080, 30 fps, 5,850 frames, 195 seconds,
-H.264/AAC. No re-edit or new render was performed for GitHub packaging.
+The current export is [docs/media/ai-restaurant-booker-demo.mp4](../docs/media/ai-restaurant-booker-demo.mp4),
+with English burned-in subtitles and SRT/WebVTT sidecars: 1920 x 1080, 30 fps,
+5,850 frames, 195 seconds, H.264/AAC. The 02:35–02:55 Control Center detail scene
+uses a captured successful real-telephony test call to an owner-authorized number.
+The original approved export remains available in Git history.
 
 ## Preview and reproduce
 
@@ -28,7 +29,8 @@ it does not replace the approved `docs/media/` file.
 - `src/editorial.ts`: product headings and explanatory callouts.
 - `src/Video.tsx`, `src/Subtitles.tsx`: composition and synchronized subtitles.
 - `public/footage/`: actual Electron captures from an isolated simulation.
-- `public/review/`: actual screenshot checks; `playground.png` supplies the result hold.
+- `public/review/`: actual screenshot checks; `playground.png` supplies the result hold,
+  and `successful-call-detail.png` supplies the recorded test-call detail scene.
 - `public/audio/`: seven offline scripted narration tracks, original source tracks,
   tempo metadata and aligned word boundaries.
 - `public/assets.json`, `public/captions.en.json`: media references and cue data.
@@ -36,8 +38,9 @@ it does not replace the approved `docs/media/` file.
 The opening explains that users provide a priority list and booking requirements
 and BARIA contacts restaurants for them. The Control Center section explains each
 agent's actions, timing and sequence. Live contact and Voice -> Negotiation -> Voice
-are explicitly labelled illustrations; recorded booking history remains simulation.
-There is no real restaurant audio or customer booking history.
+are explicitly labelled illustrations. The separate successful call detail is
+recorded from an owner-authorized real-telephony test; it is not an independent
+restaurant call. There is no real restaurant audio or customer booking history.
 
 ## Optional fresh demo capture
 

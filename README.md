@@ -27,9 +27,11 @@ operator configuration and authorization.
 1080p · 3:15 · English narration and subtitles ·
 [SRT](docs/media/ai-restaurant-booker-demo.en.srt) / [WebVTT](docs/media/ai-restaurant-booker-demo.en.vtt)
 
-The thumbnail is a frame from the final video at 00:17. The demo combines recorded
-simulations with clearly disclosed illustrative voice interactions; it does not
-present real customer phone calls.
+The thumbnail is a frame from the video at 00:17. The contact sequence is a
+disclosed simulation with illustrative voice interactions. From 02:35 to 02:55,
+the AI Control Center scene shows the captured detail of a separate, successful
+real-telephony test call to a number authorized by its owner. It does not depict
+a call to an independent restaurant or a customer booking.
 
 ## Booking Application
 

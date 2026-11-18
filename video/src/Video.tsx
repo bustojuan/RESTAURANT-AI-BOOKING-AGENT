@@ -190,14 +190,23 @@ const Highlight = ({
     }}
   />
 );
-const Lower = ({ note }: { note: StoryNote }) => (
+const Lower = ({
+  note,
+  callDetail = false,
+  context,
+}: {
+  note: StoryNote;
+  callDetail?: boolean;
+  context?: string;
+}) => (
   <div
     data-editorial-note="true"
     style={{
       position: "absolute",
-      left: note.results ? 40 : 50,
-      bottom: 164,
-      width: note.results ? 420 : 880,
+      left: callDetail ? undefined : note.results ? 40 : 50,
+      right: callDetail ? 42 : undefined,
+      bottom: callDetail ? 170 : 164,
+      width: callDetail ? 490 : note.results ? 420 : 880,
       boxSizing: "border-box",
       zIndex: 1,
       background: "rgba(10, 18, 32, 0.96)",
@@ -208,13 +217,26 @@ const Lower = ({ note }: { note: StoryNote }) => (
       boxShadow: "0 8px 28px #0004",
     }}
   >
-    <div style={{ fontSize: 28, fontWeight: 600, lineHeight: 1.24 }}>
+    {context && (
+      <div
+        style={{
+          color: "#91b3ec",
+          fontSize: 16,
+          fontWeight: 650,
+          letterSpacing: 0.4,
+          marginBottom: 9,
+        }}
+      >
+        {context}
+      </div>
+    )}
+    <div style={{ fontSize: callDetail ? 25 : 28, fontWeight: 600, lineHeight: 1.24 }}>
       {note.title}
     </div>
     {note.detail && (
       <div
         style={{
-          fontSize: 23,
+          fontSize: callDetail ? 19 : 23,
           lineHeight: 1.42,
           color: "#c0cede",
           marginTop: 8,
@@ -424,6 +446,78 @@ function Contact({ simple = false }: { simple?: boolean }) {
     </AbsoluteFill>
   );
 }
+/** One recorded owner-authorized test call, separate from the three-contact demo. */
+const SuccessfulCallDetail = ({
+  phase,
+  caption,
+}: {
+  phase: "replay" | "confirmation";
+  caption?: StoryNote;
+}) => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const duration = (phase === "replay" ? 9 : 11) * fps;
+  const scale = interpolate(
+    f,
+    [0, duration],
+    phase === "replay" ? [1, 1.055] : [1.045, 1.08],
+    { easing: ease, extrapolateRight: "clamp" },
+  );
+  const focus = (x: number, y: number, w: number, h: number) => (
+    <div
+      style={{
+        position: "absolute",
+        left: x,
+        top: y,
+        width: w,
+        height: h,
+        border: "3px solid #8eafff",
+        borderRadius: 11,
+        boxShadow: "0 0 0 4px #8eafff38, 0 0 28px #6e9dff77",
+        pointerEvents: "none",
+      }}
+    />
+  );
+  return (
+    <AbsoluteFill style={{ overflow: "hidden", background: "#0b1019" }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          transform: `scale(${scale})`,
+          transformOrigin: phase === "replay" ? "65% 72%" : "78% 33%",
+        }}
+      >
+        <Img
+          src={staticFile("review/successful-call-detail.png")}
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        />
+        {phase === "replay" ? (
+          <>
+            {focus(275, 796, 1250, 51)}
+            {focus(1077, 544, 448, 64)}
+          </>
+        ) : (
+          <>
+            {focus(1654, 155, 190, 53)}
+            {focus(1077, 544, 448, 64)}
+          </>
+        )}
+      </div>
+      {caption && (
+        <Lower
+          note={caption}
+          callDetail
+          context={
+            phase === "confirmation"
+              ? "NARRATED EXAMPLE · SEPARATE SIMULATION"
+              : "RECORDED TEST CALL · READ-ONLY REPLAY"
+          }
+        />
+      )}
+    </AbsoluteFill>
+  );
+};
 function ClipScene({
   id,
   seconds,
@@ -436,79 +530,8 @@ function ClipScene({
   zoom?: number;
 }) {
   const { fps } = useVideoConfig();
-  if (id === "replay" && media.clips.replay) {
-    return (
-      <>
-        <AbsoluteFill
-          style={{
-            background:
-              "radial-gradient(ellipse at 25% 30%,#172a4a,#0a1120 70%)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            left: 80,
-            top: 125,
-            color: "#94b3ff",
-            fontSize: 20,
-            letterSpacing: 3,
-          }}
-        >
-          RECORDED EXECUTION TIMELINE
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            left: 80,
-            top: 185,
-            fontSize: 52,
-            fontWeight: 600,
-          }}
-        >
-          Follow the decisions, operation by operation.
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            left: 80,
-            top: 310,
-            fontSize: 25,
-            color: "#b3c4df",
-          }}
-        >
-          Stored spans. Measured durations. Read-only playback.
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            left: 80,
-            top: 460,
-            width: 1760,
-            height: 330,
-            overflow: "hidden",
-            border: "1px solid #465d81",
-            borderRadius: 16,
-            boxShadow: "0 20px 60px #0007",
-          }}
-        >
-          <Video
-            src={staticFile(media.clips.replay.src)}
-            muted
-            objectFit="contain"
-            style={{
-              position: "absolute",
-              width: 1920,
-              height: 1080,
-              maxWidth: "none",
-              transformOrigin: "top left",
-              transform: "scale(1.07) translate(-260px,-755px)",
-            }}
-          />
-        </div>
-        {caption && <Lower note={caption} />}
-      </>
-    );
+  if (id === "replay" || id === "confirmation") {
+    return <SuccessfulCallDetail phase={id} caption={caption} />;
   }
   return (
     <>
@@ -647,7 +670,9 @@ function PlaybackOverlays() {
             : 32
         }
       >
-        Demo Environment · Simulated data
+        {f >= 155 * fps && f < 175 * fps
+          ? "Recorded real test call · owner-authorized number"
+          : "Demo Environment · Simulated data"}
       </Badge>
     </>
   );
